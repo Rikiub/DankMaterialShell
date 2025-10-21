@@ -128,6 +128,7 @@ DankPopout {
                     currentIndex: root.currentTabIndex
                     spacing: Theme.spacingS
                     equalWidthTabs: true
+                    enableArrowNavigation: false
                     nextFocusTarget: {
                         const item = pages.currentItem
                         if (!item)

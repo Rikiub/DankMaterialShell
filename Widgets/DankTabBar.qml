@@ -11,6 +11,7 @@ FocusScope {
     property int tabHeight: 56
     property bool showIcons: true
     property bool equalWidthTabs: true
+    property bool enableArrowNavigation: true
     property Item nextFocusTarget: null
     property Item previousFocusTarget: null
 
@@ -76,14 +77,14 @@ FocusScope {
             return false
         }
 
-        if (event.key === Qt.Key_Right) {
+        if (event.key === Qt.Key_Right && tabBar.enableArrowNavigation) {
             const baseIndex = (tabBar.currentIndex >= 0 && tabBar.currentIndex < tabRepeater.count) ? tabBar.currentIndex : -1
             const nextIndex = findSelectableIndex(baseIndex, 1)
             if (nextIndex >= 0) {
                 goToIndex(nextIndex)
                 event.accepted = true
             }
-        } else if (event.key === Qt.Key_Left) {
+        } else if (event.key === Qt.Key_Left && tabBar.enableArrowNavigation) {
             const baseIndex = (tabBar.currentIndex >= 0 && tabBar.currentIndex < tabRepeater.count) ? tabBar.currentIndex : 0
             const nextIndex = findSelectableIndex(baseIndex, -1)
             if (nextIndex >= 0) {

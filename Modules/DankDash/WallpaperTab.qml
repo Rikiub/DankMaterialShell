@@ -8,11 +8,12 @@ import qs.Common
 import qs.Services
 import qs.Widgets
 
-Item {
+FocusScope {
     id: root
 
     implicitWidth: 700
     implicitHeight: 410
+    focus: true
 
     property var wallpaperList: []
     property string wallpaperDir: ""
@@ -25,29 +26,136 @@ Item {
 
     onVisibleChanged: {
         if (visible && active) {
-            Qt.callLater(() => setInitialSelection())
+            Qt.callLater(() => {
+                setInitialSelection()
+                forceActiveFocus()
+            })
         }
     }
 
     Component.onCompleted: {
         loadWallpapers()
         if (visible && active) {
-            Qt.callLater(() => setInitialSelection())
+            Qt.callLater(() => {
+                setInitialSelection()
+                forceActiveFocus()
+            })
         }
     }
 
     onActiveChanged: {
         if (active && visible) {
-            Qt.callLater(() => setInitialSelection())
-        } else {
-            wallpaperGrid.focus = false
+            Qt.callLater(() => {
+                setInitialSelection()
+                forceActiveFocus()
+            })
         }
     }
 
     function requestFocus() {
-        if (!root.active || !root.visible) return
-        wallpaperGrid.focus = true
-        Qt.callLater(() => wallpaperGrid.forceActiveFocus())
+        forceActiveFocus()
+    }
+
+    Keys.onPressed: (event) => {
+        const columns = 4
+        const rows = 4
+        const currentRow = Math.floor(wallpaperGrid.currentIndex / columns)
+        const currentCol = wallpaperGrid.currentIndex % columns
+        const visibleCount = wallpaperGrid.model.length
+
+        if (event.key === Qt.Key_Tab && !(event.modifiers & Qt.ShiftModifier) && root.tabBarItem) {
+            const tabBar = root.tabBarItem
+            const nextIndex = (tabBar.currentIndex + 1) % tabBar.model.length
+            tabBar.currentIndex = nextIndex
+            tabBar.tabClicked(nextIndex)
+            event.accepted = true
+            return
+        }
+
+        if (event.key === Qt.Key_Tab && (event.modifiers & Qt.ShiftModifier) && root.tabBarItem) {
+            const tabBar = root.tabBarItem
+            const prevIndex = tabBar.currentIndex - 1
+            const newIndex = prevIndex < 0 ? tabBar.model.length - 1 : prevIndex
+            tabBar.currentIndex = newIndex
+            tabBar.tabClicked(newIndex)
+            event.accepted = true
+            return
+        }
+
+        if (event.key === Qt.Key_Right) {
+            if (currentCol === columns - 1) {
+                if (currentPage < totalPages - 1) {
+                    currentPage++
+                    wallpaperGrid.currentIndex = currentRow * columns
+                }
+            } else if (wallpaperGrid.currentIndex + 1 < visibleCount) {
+                wallpaperGrid.currentIndex++
+            }
+            event.accepted = true
+            return
+        }
+
+        if (event.key === Qt.Key_Left) {
+            if (currentCol === 0) {
+                if (currentPage > 0) {
+                    currentPage--
+                    wallpaperGrid.currentIndex = currentRow * columns + (columns - 1)
+                }
+            } else {
+                wallpaperGrid.currentIndex--
+            }
+            event.accepted = true
+            return
+        }
+
+        if (event.key === Qt.Key_Down) {
+            if (currentRow === rows - 1) {
+                if (currentCol === columns - 1 && currentPage < totalPages - 1) {
+                    currentPage++
+                    wallpaperGrid.currentIndex = 0
+                }
+            } else if (wallpaperGrid.currentIndex + columns < visibleCount) {
+                wallpaperGrid.currentIndex += columns
+            }
+            event.accepted = true
+            return
+        }
+
+        if (event.key === Qt.Key_Up) {
+            if (currentRow > 0) {
+                wallpaperGrid.currentIndex -= columns
+            }
+            event.accepted = true
+            return
+        }
+
+        if (event.key === Qt.Key_PageUp && currentPage > 0) {
+            currentPage--
+            wallpaperGrid.currentIndex = 0
+            event.accepted = true
+            return
+        }
+
+        if (event.key === Qt.Key_PageDown && currentPage < totalPages - 1) {
+            currentPage++
+            wallpaperGrid.currentIndex = 0
+            event.accepted = true
+            return
+        }
+
+        if (event.key === Qt.Key_Home && event.modifiers & Qt.ControlModifier) {
+            currentPage = 0
+            wallpaperGrid.currentIndex = 0
+            event.accepted = true
+            return
+        }
+
+        if (event.key === Qt.Key_End && event.modifiers & Qt.ControlModifier) {
+            currentPage = totalPages - 1
+            wallpaperGrid.currentIndex = 0
+            event.accepted = true
+            return
+        }
     }
 
     function setInitialSelection() {
@@ -137,13 +245,11 @@ Item {
                 enabled: root.active
                 interactive: root.active
                 boundsBehavior: Flickable.StopAtBounds
-                focus: root.active
-                keyNavigationEnabled: root.active
-                keyNavigationWraps: true
+                keyNavigationEnabled: false
+                activeFocusOnTab: true
                 highlightFollowsCurrentItem: true
                 currentIndex: 0
-                KeyNavigation.backtab: root.tabBarItem
-                KeyNavigation.up: root.tabBarItem
+                focus: true
 
                 highlight: Rectangle {
                     color: "transparent"
@@ -165,7 +271,7 @@ Item {
                     }
                 }
 
-                onCurrentIndexChanged: {
+                Keys.onReturnPressed: {
                     if (currentIndex >= 0) {
                         const item = wallpaperGrid.currentItem
                         if (item && item.wallpaperPath) {
@@ -174,37 +280,12 @@ Item {
                     }
                 }
 
-                Keys.onPressed: (event) => {
-                    const columns = 4
-
-                    if (event.key === Qt.Key_PageUp) {
-                        if (currentPage > 0) {
-                            currentPage--
-                            wallpaperGrid.currentIndex = 0
-                            event.accepted = true
+                Keys.onEnterPressed: {
+                    if (currentIndex >= 0) {
+                        const item = wallpaperGrid.currentItem
+                        if (item && item.wallpaperPath) {
+                            SessionData.setWallpaper(item.wallpaperPath)
                         }
-                    } else if (event.key === Qt.Key_PageDown) {
-                        if (currentPage < totalPages - 1) {
-                            currentPage++
-                            wallpaperGrid.currentIndex = 0
-                            event.accepted = true
-                        }
-                    } else if (event.key === Qt.Key_Home && event.modifiers & Qt.ControlModifier) {
-                        currentPage = 0
-                        wallpaperGrid.currentIndex = 0
-                        event.accepted = true
-                    } else if (event.key === Qt.Key_End && event.modifiers & Qt.ControlModifier) {
-                        currentPage = totalPages - 1
-                        wallpaperGrid.currentIndex = 0
-                        event.accepted = true
-                    } else if (event.key === Qt.Key_Up && root.tabBarItem && (currentIndex < columns || currentIndex === -1)) {
-                        wallpaperGrid.focus = false
-                        root.tabBarItem.forceActiveFocus()
-                        event.accepted = true
-                    } else if (event.key === Qt.Key_Tab && (event.modifiers & Qt.ShiftModifier) && root.tabBarItem) {
-                        wallpaperGrid.focus = false
-                        root.tabBarItem.forceActiveFocus()
-                        event.accepted = true
                     }
                 }
 
