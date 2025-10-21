@@ -116,8 +116,9 @@ Item {
 
                         width: parent.width
                         text: I18n.tr("Night Mode")
-                        description: I18n.tr("Apply warm color temperature to reduce eye strain. Use automation settings below to control when it activates.")
+                        description: DisplayService.gammaControlAvailable ? I18n.tr("Apply warm color temperature to reduce eye strain. Use automation settings below to control when it activates.") : I18n.tr("Gamma control not available. Requires DMS API v6+.")
                         checked: DisplayService.nightModeEnabled
+                        enabled: DisplayService.gammaControlAvailable
                         onToggled: checked => {
                                        DisplayService.toggleNightMode()
                                    }
@@ -136,6 +137,7 @@ Item {
                         spacing: 0
                         leftPadding: Theme.spacingM
                         rightPadding: Theme.spacingM
+                        visible: DisplayService.gammaControlAvailable
 
                         DankDropdown {
                             width: parent.width - parent.leftPadding - parent.rightPadding
@@ -162,6 +164,7 @@ Item {
                         text: I18n.tr("Automatic Control")
                         description: I18n.tr("Only adjust gamma based on time or location rules.")
                         checked: SessionData.nightModeAutoEnabled
+                        visible: DisplayService.gammaControlAvailable
                         onToggled: checked => {
                                        if (checked && !DisplayService.nightModeEnabled) {
                                            DisplayService.toggleNightMode()
@@ -183,7 +186,7 @@ Item {
                         id: automaticSettings
                         width: parent.width
                         spacing: Theme.spacingS
-                        visible: SessionData.nightModeAutoEnabled
+                        visible: SessionData.nightModeAutoEnabled && DisplayService.gammaControlAvailable
 
                         Connections {
                             target: SessionData
@@ -360,27 +363,28 @@ Item {
                             width: parent.width
 
                             DankToggle {
+                                id: ipLocationToggle
                                 width: parent.width
-                                text: I18n.tr("Auto-location")
-                                description: DisplayService.geoclueAvailable ? I18n.tr("Use automatic location detection (geoclue2)") : I18n.tr("Geoclue service not running - cannot auto-detect location")
-                                checked: SessionData.nightModeLocationProvider === "geoclue2"
-                                enabled: DisplayService.geoclueAvailable
+                                text: I18n.tr("Use IP Location")
+                                description: I18n.tr("Automatically detect location based on IP address")
+                                checked: SessionData.nightModeUseIPLocation || false
                                 onToggled: checked => {
-                                               if (checked && DisplayService.geoclueAvailable) {
-                                                   SessionData.setNightModeLocationProvider("geoclue2")
-                                                   SessionData.setLatitude(0.0)
-                                                   SessionData.setLongitude(0.0)
-                                               } else {
-                                                   SessionData.setNightModeLocationProvider("")
-                                               }
-                                           }
+                                    SessionData.setNightModeUseIPLocation(checked)
+                                }
+
+                                Connections {
+                                    target: SessionData
+                                    function onNightModeUseIPLocationChanged() {
+                                        ipLocationToggle.checked = SessionData.nightModeUseIPLocation
+                                    }
+                                }
                             }
 
                             Column {
                                 width: parent.width
                                 spacing: Theme.spacingM
-                                visible: SessionData.nightModeLocationProvider !== "geoclue2"
                                 leftPadding: Theme.spacingM
+                                visible: !SessionData.nightModeUseIPLocation
 
                                 StyledText {
                                     text: I18n.tr("Manual Coordinates")

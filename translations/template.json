@@ -1386,6 +1386,20 @@
     "comment": ""
   },
   {
+    "term": "Failed to set profile image",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to set profile image: ",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Feels Like",
     "translation": "",
     "context": "",
@@ -2499,6 +2513,13 @@
     "comment": ""
   },
   {
+    "term": "Permission denied to set profile image.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Personalization",
     "translation": "",
     "context": "",
@@ -2675,6 +2696,20 @@
   },
   {
     "term": "Process",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Profile Image Error",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Profile image is too large. Please use a smaller image.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2969,6 +3004,13 @@
   },
   {
     "term": "Select which transitions to include in randomization",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Selected image file not found.",
     "translation": "",
     "context": "",
     "reference": "",

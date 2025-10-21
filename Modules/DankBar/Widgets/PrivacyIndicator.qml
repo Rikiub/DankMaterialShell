@@ -60,7 +60,8 @@ Rectangle {
 
             DankIcon {
                 name: {
-                    let muted = AudioService.source.audio.muted || AudioService.source.audio.volume === 0.0
+                    const sourceAudio = AudioService.source?.audio
+                    const muted = !sourceAudio || sourceAudio.muted || sourceAudio.volume === 0.0
                     if (muted) return "mic_off"
                     return "mic"
                 }
@@ -130,7 +131,8 @@ Rectangle {
 
             DankIcon {
                 name: {
-                    let muted = AudioService.source.audio.muted || AudioService.source.audio.volume === 0.0
+                    const sourceAudio = AudioService.source?.audio
+                    const muted = !sourceAudio || sourceAudio.muted || sourceAudio.volume === 0.0
                     if (muted) return "mic_off"
                     return "mic"
                 }

@@ -17,13 +17,26 @@ Rectangle {
     property real widgetThickness: 30
     property bool isAtBottom: false
     readonly property real horizontalPadding: SettingsData.dankBarNoBackground ? 2 : Theme.spacingS
-    readonly property int calculatedSize: SystemTray.items.values.length > 0 ? SystemTray.items.values.length * 24 + horizontalPadding * 2 : 0
+    readonly property var hiddenTrayIds: {
+        const envValue = Quickshell.env("DMS_HIDE_TRAYIDS") || ""
+        return envValue ? envValue.split(",").map(id => id.trim().toLowerCase()) : []
+    }
+    readonly property var visibleTrayItems: {
+        if (!hiddenTrayIds.length) {
+            return SystemTray.items.values
+        }
+        return SystemTray.items.values.filter(item => {
+            const itemId = item?.id || ""
+            return !hiddenTrayIds.includes(itemId.toLowerCase())
+        })
+    }
+    readonly property int calculatedSize: visibleTrayItems.length > 0 ? visibleTrayItems.length * 24 + horizontalPadding * 2 : 0
 
     width: isVertical ? widgetThickness : calculatedSize
     height: isVertical ? calculatedSize : widgetThickness
     radius: SettingsData.dankBarNoBackground ? 0 : Theme.cornerRadius
     color: {
-        if (SystemTray.items.values.length === 0) {
+        if (visibleTrayItems.length === 0) {
             return "transparent";
         }
 
@@ -34,7 +47,7 @@ Rectangle {
         const baseColor = Theme.widgetBaseBackgroundColor;
         return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * Theme.widgetTransparency);
     }
-    visible: SystemTray.items.values.length > 0
+    visible: visibleTrayItems.length > 0
 
     Loader {
         id: layoutLoader
@@ -48,7 +61,7 @@ Rectangle {
             spacing: 0
 
             Repeater {
-                model: SystemTray.items.values
+                model: root.visibleTrayItems
 
                 delegate: Item {
                 property var trayItem: modelData
@@ -135,7 +148,7 @@ Rectangle {
             spacing: 0
 
             Repeater {
-                model: SystemTray.items.values
+                model: root.visibleTrayItems
 
                 delegate: Item {
                 property var trayItem: modelData

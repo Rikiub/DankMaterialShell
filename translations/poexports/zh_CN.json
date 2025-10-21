@@ -99,7 +99,7 @@
     "Apply Qt Colors": "应用 Qt 配色"
   },
   "Apply warm color temperature to reduce eye strain. Use automation settings below to control when it activates.": {
-    "Apply warm color temperature to reduce eye strain. Use automation settings below to control when it activates.": "应用暖色温以减轻眼睛疲劳。使用下面的自动化设置来控制它何时激活。"
+    "Apply warm color temperature to reduce eye strain. Use automation settings below to control when it activates.": "应用暖色温以减轻眼睛疲劳，可通过下方设置配置按时间自动启用。"
   },
   "Apps Icon": {
     "Apps Icon": "应用图标"
@@ -195,7 +195,7 @@
     "Back": "返回"
   },
   "Balanced palette with focused accents (default).": {
-    "Balanced palette with focused accents (default).": "通过焦点窗口强调色来平衡调色板（默认）。"
+    "Balanced palette with focused accents (default).": "均衡配色，强调重点（默认）"
   },
   "Battery": {
     "Battery": "电池"
@@ -234,7 +234,7 @@
     "Bottom Section": "底部区域"
   },
   "Bottom dock for pinned and running applications": {
-    "Bottom dock for pinned and running applications": "底部扩展坞，用于固定和正在运行的应用程序"
+    "Bottom dock for pinned and running applications": "底部程序坞：显示已固定和活动应用"
   },
   "Brightness": {
     "Brightness": "亮度"
@@ -321,7 +321,7 @@
     "Color temperature for night mode": "夜间模式色温"
   },
   "Colorful mix of bright contrasting accents.": {
-    "Colorful mix of bright contrasting accents.": "强调明亮对比的色彩组合。"
+    "Colorful mix of bright contrasting accents.": "色彩鲜明、对比强烈的配色。"
   },
   "Command or script to run instead of the standard hibernate procedure": {
     "Command or script to run instead of the standard hibernate procedure": "用于替代标准休眠流程的命令或脚本"
@@ -471,10 +471,10 @@
     "Del: Clear • Shift+Del: Clear All • 1-9: Actions • F10: Help • Esc: Close": "Del: 清除 • Shift+Del: 清空 • 1-9: 操作 • F10: 帮助 • Esc: 关闭"
   },
   "Derives colors that closely match the underlying image.": {
-    "Derives colors that closely match the underlying image.": "与底层图像紧密匹配的颜色。"
+    "Derives colors that closely match the underlying image.": "提取与壁纸高度匹配的颜色。"
   },
   "Desktop background images": {
-    "Desktop background images": "桌面背景图像"
+    "Desktop background images": "桌面壁纸"
   },
   "Development": {
     "Development": "开发"
@@ -513,7 +513,7 @@
     "Displays the active keyboard layout and allows switching": "显示当前键盘布局并支持切换"
   },
   "Diverse palette spanning the full spectrum.": {
-    "Diverse palette spanning the full spectrum.": "涵盖全谱的多样化调色板。"
+    "Diverse palette spanning the full spectrum.": "绚丽多彩，覆盖全色系的配色。"
   },
   "Do Not Disturb": {
     "Do Not Disturb": "勿扰模式"
@@ -660,7 +660,7 @@
     "Gamma Control": "伽马控制"
   },
   "Geoclue service not running - cannot auto-detect location": {
-    "Geoclue service not running - cannot auto-detect location": "地理线索服务未运行 - 无法自动检测位置"
+    "Geoclue service not running - cannot auto-detect location": "Geoclue 服务未运行 - 无法自动检测位置"
   },
   "Github:": {
     "Github:": "Github:"
@@ -699,10 +699,10 @@
     "Hide the dock when not in use and reveal it when hovering near the dock area": "在未使用时隐藏程序坞，鼠标悬停到程序坞区域时显示"
   },
   "High-contrast palette for strong visual distinction.": {
-    "High-contrast palette for strong visual distinction.": "高对比度调色板，在视觉上营造强烈对比。"
+    "High-contrast palette for strong visual distinction.": "高对比度配色，在视觉上营造强烈对比。"
   },
   "High-fidelity palette that preserves source hues.": {
-    "High-fidelity palette that preserves source hues.": "保留源色调的高保真调色板。"
+    "High-fidelity palette that preserves source hues.": "高保真配色，保留原始色调。"
   },
   "Hour": {
     "Hour": "小时"
@@ -810,7 +810,7 @@
     "Lines: %1": "行数: %1"
   },
   "Lively palette with saturated accents.": {
-    "Lively palette with saturated accents.": "强调饱和度的活跃调色板。"
+    "Lively palette with saturated accents.": "活力十足的配色，带有高饱和点缀色。"
   },
   "Loading plugins...": {
     "Loading plugins...": "正在加载插件…..."
@@ -885,7 +885,7 @@
     "Memory usage indicator": "内存占用情况"
   },
   "Minimal palette built around a single hue.": {
-    "Minimal palette built around a single hue.": "围绕单一色调构建的最小调色板。"
+    "Minimal palette built around a single hue.": "围绕单一色调构建的简约配色。"
   },
   "Minute": {
     "Minute": "分钟"
@@ -906,7 +906,7 @@
     "Mount": "挂载"
   },
   "Muted palette with subdued, calming tones.": {
-    "Muted palette with subdued, calming tones.": "柔和的调色板，拥有柔和、平静的色调。"
+    "Muted palette with subdued, calming tones.": "柔和配色，带来舒缓的视觉感受。"
   },
   "NM not supported": {
     "NM not supported": "不支持 NM"
@@ -993,7 +993,7 @@
     "Notepad Font Settings": "便签字体设置"
   },
   "Notepad Slideout": {
-    "Notepad Slideout": "滑出式记事本"
+    "Notepad Slideout": "便签侧边栏"
   },
   "Nothing to see here": {
     "Nothing to see here": "空空如也"
@@ -1032,7 +1032,7 @@
     "On-Screen Displays": "屏幕显示"
   },
   "Only adjust gamma based on time or location rules.": {
-    "Only adjust gamma based on time or location rules.": "仅根据时间或位置规则调整伽玛值。"
+    "Only adjust gamma based on time or location rules.": "仅根据时间或位置规则调节伽马值。"
   },
   "Opacity": {
     "Opacity": "不透明度"
@@ -1161,7 +1161,7 @@
     "Quick access to notepad": "快捷访问剪切板"
   },
   "Quick note-taking slideout panel": {
-    "Quick note-taking slideout panel": "快速记事本滑出面板"
+    "Quick note-taking slideout panel": "便于快速记便签的侧边栏面板"
   },
   "Rain Chance": {
     "Rain Chance": "降雨概率"
@@ -1245,7 +1245,7 @@
     "Select a color from the palette or use custom sliders": "从调色板中选择颜色，或使用自定义滑块"
   },
   "Select a preset or drag the slider to customize": {
-    "Select a preset or drag the slider to customize": "选择预设或拖动滑块进行自定义"
+    "Select a preset or drag the slider to customize": "选择预设值或拖动滑块进行自定义"
   },
   "Select a widget to add to the ": {
     "Select a widget to add to the ": "选择一个小组件添加到 "
@@ -1269,7 +1269,7 @@
     "Select system sound theme": "选择系统声音主题"
   },
   "Select the palette algorithm used for wallpaper-based colors": {
-    "Select the palette algorithm used for wallpaper-based colors": "基于壁纸的颜色的方式选择调色板算法"
+    "Select the palette algorithm used for wallpaper-based colors": "选择从壁纸取色的配色方案"
   },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "选择在随机轮换中使用的过渡效果"
@@ -1314,10 +1314,10 @@
     "Show on screens:": "选择显示的屏幕："
   },
   "Show only apps running in current workspace": {
-    "Show only apps running in current workspace": "仅显示当前工作区中运行的应用"
+    "Show only apps running in current workspace": "仅显示当前工作区中的活动应用"
   },
   "Show only workspaces belonging to each specific monitor.": {
-    "Show only workspaces belonging to each specific monitor.": "仅显示属于每个特定监视器的工作区。"
+    "Show only workspaces belonging to each specific monitor.": "仅显示属于各个显示器的工作区。"
   },
   "Show password": {
     "Show password": "显示密码"
@@ -1332,7 +1332,7 @@
     "Show weather information in top bar and control center": "在顶栏和控制中心显示天气信息"
   },
   "Show workspace index numbers in the top bar workspace switcher": {
-    "Show workspace index numbers in the top bar workspace switcher": "在顶部栏工作区切换器中显示工作区索引号"
+    "Show workspace index numbers in the top bar workspace switcher": "在顶栏工作区切换器中显示工作区索引号"
   },
   "Shows all running applications with focus indication": {
     "Shows all running applications with focus indication": "显示所有正在运行应用程序，并标记焦点所在"
@@ -1425,7 +1425,7 @@
     "System Updates": "系统更新"
   },
   "System bar with widgets and system information": {
-    "System bar with widgets and system information": "带有小部件和系统信息的系统栏"
+    "System bar with widgets and system information": "带有小组件和系统信息的状态栏"
   },
   "System notification area icons": {
     "System notification area icons": "系统通知区域图标"

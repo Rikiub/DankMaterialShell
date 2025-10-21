@@ -333,7 +333,6 @@ sudo sh -c "curl -L https://github.com/AvengeMedia/dgop/releases/latest/download
 - `wl-clipboard`: Required for copying various elements to clipboard.
 - `cava`: Audio visualizer
 - `cliphist`: Clipboard history
-- `gammastep`: Night mode support
 - `qt6-multimedia`: System sound support
 
 ## Compositor Configuration

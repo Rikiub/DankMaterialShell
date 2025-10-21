@@ -386,7 +386,7 @@
   {
     "term": "Back",
     "context": "Back",
-    "reference": "Modules/DankBar/Widgets/SystemTrayBar.qml:454",
+    "reference": "Modules/DankBar/Widgets/SystemTrayBar.qml:467",
     "comment": ""
   },
   {
@@ -860,7 +860,7 @@
   {
     "term": "DEMO MODE - Click anywhere to exit",
     "context": "DEMO MODE - Click anywhere to exit",
-    "reference": "Modules/Lock/LockScreenContent.qml:634",
+    "reference": "Modules/Lock/LockScreenContent.qml:628",
     "comment": ""
   },
   {
@@ -1185,6 +1185,18 @@
     "term": "F1/I: Toggle • F10: Help",
     "context": "F1/I: Toggle • F10: Help",
     "reference": "Modals/FileBrowser/FileInfo.qml:200",
+    "comment": ""
+  },
+  {
+    "term": "Failed to set profile image",
+    "context": "Failed to set profile image",
+    "reference": "Services/PortalService.qml:150",
+    "comment": ""
+  },
+  {
+    "term": "Failed to set profile image: ",
+    "context": "Failed to set profile image: ",
+    "reference": "Services/PortalService.qml:159",
     "comment": ""
   },
   {
@@ -2142,6 +2154,12 @@
     "comment": ""
   },
   {
+    "term": "Permission denied to set profile image.",
+    "context": "Permission denied to set profile image.",
+    "reference": "Services/PortalService.qml:155",
+    "comment": ""
+  },
+  {
     "term": "Personalization",
     "context": "Personalization",
     "reference": "Modals/Settings/SettingsSidebar.qml:14",
@@ -2295,6 +2313,18 @@
     "term": "Process",
     "context": "Process",
     "reference": "Modules/ProcessList/ProcessListView.qml:41",
+    "comment": ""
+  },
+  {
+    "term": "Profile Image Error",
+    "context": "Profile Image Error",
+    "reference": "Services/PortalService.qml:162",
+    "comment": ""
+  },
+  {
+    "term": "Profile image is too large. Please use a smaller image.",
+    "context": "Profile image is too large. Please use a smaller image.",
+    "reference": "Services/PortalService.qml:153",
     "comment": ""
   },
   {
@@ -2547,6 +2577,12 @@
     "term": "Select which transitions to include in randomization",
     "context": "Select which transitions to include in randomization",
     "reference": "Modules/Settings/PersonalizationTab.qml:930",
+    "comment": ""
+  },
+  {
+    "term": "Selected image file not found.",
+    "context": "Selected image file not found.",
+    "reference": "Services/PortalService.qml:157",
     "comment": ""
   },
   {
