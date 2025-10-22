@@ -166,7 +166,6 @@ FocusScope {
                         if (tabItem.isAction) {
                             tabBar.actionTriggered(index)
                         } else {
-                            tabBar.currentIndex = index
                             tabBar.tabClicked(index)
                         }
                     }

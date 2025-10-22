@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import qs.Common
+import qs.Modals.FileBrowser
 import qs.Services
 import qs.Widgets
 
@@ -73,44 +74,52 @@ Item {
         }
 
         if (event.key === Qt.Key_Right) {
-            if (currentCol === columns - 1) {
-                if (currentPage < totalPages - 1) {
-                    gridIndex = currentRow * columns
-                    currentPage++
-                }
-            } else if (gridIndex + 1 < visibleCount) {
+            if (gridIndex + 1 < visibleCount) {
+                // Move right within current page
                 gridIndex++
+            } else if (gridIndex === visibleCount - 1 && currentPage < totalPages - 1) {
+                // At last item in page, go to next page
+                gridIndex = 0
+                currentPage++
             }
             return true
         }
 
         if (event.key === Qt.Key_Left) {
-            if (currentCol === 0) {
-                if (currentPage > 0) {
-                    gridIndex = currentRow * columns + (columns - 1)
-                    currentPage--
-                }
-            } else {
+            if (gridIndex > 0) {
+                // Move left within current page
                 gridIndex--
+            } else if (gridIndex === 0 && currentPage > 0) {
+                // At first item in page, go to previous page (last item)
+                currentPage--
+                gridIndex = Math.min(itemsPerPage - 1, wallpaperList.length - currentPage * itemsPerPage - 1)
             }
             return true
         }
 
         if (event.key === Qt.Key_Down) {
-            if (currentRow === rows - 1) {
-                if (currentCol === columns - 1 && currentPage < totalPages - 1) {
-                    gridIndex = 0
-                    currentPage++
-                }
-            } else if (gridIndex + columns < visibleCount) {
+            if (gridIndex + columns < visibleCount) {
+                // Move down within current page
                 gridIndex += columns
+            } else if (gridIndex >= visibleCount - columns && currentPage < totalPages - 1) {
+                // In last row, go to next page
+                gridIndex = currentCol
+                currentPage++
             }
             return true
         }
 
         if (event.key === Qt.Key_Up) {
-            if (currentRow > 0) {
+            if (gridIndex >= columns) {
+                // Move up within current page
                 gridIndex -= columns
+            } else if (gridIndex < columns && currentPage > 0) {
+                // In first row, go to previous page (last row)
+                currentPage--
+                const prevPageCount = Math.min(itemsPerPage, wallpaperList.length - currentPage * itemsPerPage)
+                const prevPageRows = Math.ceil(prevPageCount / columns)
+                gridIndex = (prevPageRows - 1) * columns + currentCol
+                gridIndex = Math.min(gridIndex, prevPageCount - 1)
             }
             return true
         }
@@ -169,9 +178,16 @@ Item {
 
     function loadWallpapers() {
         const currentWallpaper = SessionData.wallpaperPath
+        
+        // Try current wallpaper path / fallback to wallpaperLastPath
         if (!currentWallpaper || currentWallpaper.startsWith("#") || currentWallpaper.startsWith("we:")) {
-            wallpaperDir = ""
-            wallpaperList = []
+            if (CacheData.wallpaperLastPath && CacheData.wallpaperLastPath !== "") {
+                wallpaperDir = CacheData.wallpaperLastPath
+                wallpaperProcess.running = true
+            } else {
+                wallpaperDir = ""
+                wallpaperList = []
+            }
             return
         }
 
@@ -217,6 +233,44 @@ Item {
         }
     }
 
+    Loader {
+        id: wallpaperBrowserLoader
+        active: false
+        asynchronous: true
+
+        sourceComponent: FileBrowserModal {
+            Component.onCompleted: {
+                open()
+            }
+            browserTitle: "Select Wallpaper Directory"
+            browserIcon: "folder_open"
+            browserType: "wallpaper"
+            showHiddenFiles: false
+            fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp"]
+            allowStacking: true
+            
+            onFileSelected: (path) => {
+                // Set the selected wallpaper
+                const cleanPath = path.replace(/^file:\/\//, '')
+                SessionData.setWallpaper(cleanPath)
+                
+                // Extract directory from the selected file and load all wallpapers
+                const dirPath = cleanPath.substring(0, cleanPath.lastIndexOf('/'))
+                if (dirPath) {
+                    wallpaperDir = dirPath
+                    CacheData.wallpaperLastPath = dirPath
+                    CacheData.saveCache()
+                    wallpaperProcess.running = true
+                }
+                close()
+            }
+            
+            onDialogClosed: {
+                Qt.callLater(() => wallpaperBrowserLoader.active = false)
+            }
+        }
+    }
+
     Column {
         anchors.fill: parent
         spacing: 0
@@ -240,13 +294,18 @@ Item {
                 activeFocusOnTab: false
                 highlightFollowsCurrentItem: true
                 highlightMoveDuration: enableAnimation ? Theme.shortDuration : 0
-                focus: true
+                focus: false
 
-                highlight: Rectangle {
-                    color: "transparent"
-                    border.width: 3
-                    border.color: Theme.primary
-                    radius: Theme.cornerRadius
+                highlight: Item {
+                    z: 1000
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.margins: Theme.spacingXS
+                        color: "transparent"
+                        border.width: 3
+                        border.color: Theme.primary
+                        radius: Theme.cornerRadius
+                    }
                 }
 
                 model: {
@@ -352,10 +411,10 @@ Item {
 
                             onClicked: {
                                 gridIndex = index
-                                root.requestFocus()
                                 if (modelData) {
                                     SessionData.setWallpaper(modelData)
                                 }
+                                // Don't steal focus - let mainContainer keep it for keyboard nav
                             }
                         }
                     }
@@ -365,7 +424,7 @@ Item {
             StyledText {
                 anchors.centerIn: parent
                 visible: wallpaperList.length === 0
-                text: "No wallpapers found\n\nSet a wallpaper path first"
+                text: "No wallpapers found\n\nClick the folder icon below to browse"
                 font.pixelSize: 14
                 color: Theme.outline
                 horizontalAlignment: Text.AlignHCenter
@@ -378,7 +437,7 @@ Item {
             spacing: Theme.spacingS
 
             Item {
-                width: (parent.width - controlsRow.width) / 2
+                width: (parent.width - controlsRow.width - browseButton.width - Theme.spacingS) / 2
                 height: parent.height
             }
 
@@ -422,6 +481,16 @@ Item {
                         }
                     }
                 }
+            }
+
+            DankActionButton {
+                id: browseButton
+                anchors.verticalCenter: parent.verticalCenter
+                iconName: "folder_open"
+                iconSize: 20
+                buttonSize: 32
+                opacity: 0.7
+                onClicked: wallpaperBrowserLoader.active = true
             }
         }
     }
